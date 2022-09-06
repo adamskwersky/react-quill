@@ -25,6 +25,13 @@
     "clean": "rimraf lib dist",
     "prepublishOnly": "npm run build"
   },
+  /* needed for vscode debugging */
+  "mocha": {
+      "u": "bdd",
+      "recursive": true,
+      "require": ["./test/setup.js"],
+      "spec": "test/index"
+  },
   "keywords": [
     "react",
     "react-component",

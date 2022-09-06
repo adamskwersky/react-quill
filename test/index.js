@@ -14,6 +14,7 @@ const { Quill } = require('../lib/index');
 const {
   mountReactQuill,
   getQuillInstance,
+  getQuillDOMNode,
   getQuillContentsAsHTML,
   setQuillContentsFromHTML,
   withMockedConsole,
@@ -66,6 +67,44 @@ describe('<ReactQuill />', function() {
     expect(quill.options.readOnly).to.equal(props.readOnly);
     expect(quill.options.modules).to.include.keys(Object.keys(props.modules));
     expect(quill.options.formats).to.include.members(props.formats);
+  });
+
+  it('dirty options are passed to Quill from props', () => {
+    const enabledFormats = ['underline', 'bold', 'italic'];
+    const props = {
+      placeholder: 'foobar',
+      readOnly: false,
+      formats: enabledFormats,
+      modules: {
+        toolbar: enabledFormats,
+      },
+    };
+    let wrapper = mountReactQuill(props);
+    let quill = getQuillInstance(wrapper);
+    let quillEditorDOM = getQuillDOMNode(wrapper);
+    expect(quillEditorDOM).to.not.be.null;
+    expect(quill.options.placeholder).to.equal(props.placeholder);
+    expect(quill.options.readOnly).to.equal(props.readOnly);
+    expect(quill.options.modules).to.include.keys(Object.keys(props.modules));
+    expect(quill.options.formats).to.include.members(props.formats);
+    
+    const dirtyProps = {
+        placeholder: 'foobar',
+        readOnly: true,
+        formats: enabledFormats,
+        modules: {
+            toolbar: false
+        }
+    }
+    wrapper.setProps(dirtyProps);
+    quill = getQuillInstance(wrapper);
+    quillEditorDOM = getQuillDOMNode(wrapper);
+    expect(quillEditorDOM).to.not.be.null;
+    expect(quill.options.placeholder).to.equal(dirtyProps.placeholder);
+    expect(quill.options.readOnly).to.equal(dirtyProps.readOnly);
+    expect(quill.options.modules).to.include.keys(Object.keys(dirtyProps.modules));
+    expect(quill.options.formats).to.include.members(dirtyProps.formats);
+
   });
 
   it('allows using HTML strings as value', () => {
