@@ -69,6 +69,7 @@ describe('<ReactQuill />', function() {
     expect(quill.options.formats).to.include.members(props.formats);
   });
 
+
   it('dirty options are passed to Quill from props', () => {
     const enabledFormats = ['underline', 'bold', 'italic'];
     const props = {
@@ -252,4 +253,26 @@ describe('<ReactQuill />', function() {
    * ultimate test of whether everything is working or not
    */
   it('calls onChange after keypresses are sent to the editor');
+
+    // if we could get enzyme to work with react 18 we could run this
+    it('only one toolbar rendered in strict mode');
+        // , () => {
+        // const enabledFormats = ['underline', 'bold', 'italic'];
+        // const props = {
+        //     placeholder: 'foobar',
+        //     readOnly: true,
+        //     formats: enabledFormats,
+        //     modules: {
+        //     toolbar: enabledFormats,
+        //     },
+        // };
+        // const wrapper = mountReactQuill(props, undefined, true);
+        // const quill = getQuillInstance(wrapper);
+        // expect(quill.options.placeholder).to.equal(props.placeholder);
+        // expect(quill.options.readOnly).to.equal(props.readOnly);
+        // expect(quill.options.modules).to.include.keys(Object.keys(props.modules));
+        // expect(quill.options.formats).to.include.members(props.formats);
+        // expect(wrapper).to.have.descendants('.ql-editor');
+        // });
+    
 });

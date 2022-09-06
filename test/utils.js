@@ -2,7 +2,7 @@ var React = require('react');
 var { mount } = require('enzyme');
 var ReactQuill = require('../lib/index');
 
-function ReactQuillNode(props, children) {
+function ReactQuillNode(props, children, strictMode) {
   props = Object.assign(
     {
       modules: { toolbar: ['underline', 'bold', 'italic'] },
@@ -11,11 +11,15 @@ function ReactQuillNode(props, children) {
     props
   );
 
-  return React.createElement(ReactQuill, props, children);
+  let quillComponent = React.createElement(ReactQuill, props, children);
+
+  return strictMode ?
+    React.createElement(React.StrictMode, null, quillComponent) :
+    quillComponent;
 }
 
-function mountReactQuill(props, node) {
-  return mount(ReactQuillNode(props, node));
+function mountReactQuill(props, node, strictMode) {
+  return mount(ReactQuillNode(props, node, strictMode));
 }
 
 function getQuillInstance(wrapper) {
